@@ -1,0 +1,27 @@
+ansible_connection: winrm
+ansible_port: 5986
+ansible_winrm_server_cert_validation: ignore
+ansible_winrm_transport: credssp
+
+
+on windows machine:
+
+
+on powershell:
+
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$url = "https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1"
+$file = "$env:temp\ConfigureRemotingForAnsible.ps1"
+
+(New-Object -TypeName System.Net.WebClient).DownloadFile($url, $file)
+
+powershell.exe -ExecutionPolicy ByPass -File $file
+
+on cmd:
+
+> winrm set winrm/config/service/auth @{Basic="true"}
+> winrm set winrm/config/service/auth @{CredSSP="true"}
+
+To view the current listeners that are running on the WinRM service, run the following command:
+
+> winrm enumerate winrm/config/Listener

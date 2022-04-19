@@ -1,0 +1,12 @@
+---
+- hosts: tag_Name_Debian
+  become: true
+  become_user: root
+  tasks:
+    - name: Check Debian version
+      shell: |
+        hostnamectl
+      register: debian_version
+    - name: Debian version
+      debug:
+        msg: "{{ debian_version }}"

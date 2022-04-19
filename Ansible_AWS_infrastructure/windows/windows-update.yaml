@@ -1,0 +1,13 @@
+---
+- hosts: tag_Type_Windows
+  tasks:
+    - name: Install all updates and reboot as many times as needed
+      ansible.windows.win_updates:
+        category_names: "*"
+        reboot: yes
+
+    - name: Install all security updates with automatic reboots
+      ansible.windows.win_updates:
+        category_names:
+          - SecurityUpdates
+        reboot: yes

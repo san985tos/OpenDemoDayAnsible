@@ -1,0 +1,7 @@
+---
+- name: Search and download Windows updates without installing them
+  hosts: tag_Type_Windows2019
+  tasks:
+    - name: Search and download Windows updates without installing them
+      ansible.windows.win_updates:
+        state: downloaded

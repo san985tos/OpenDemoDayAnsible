@@ -1,0 +1,10 @@
+---
+- hosts: "{{ host }}"
+  become: true
+  tasks:
+    - name: Install insights client
+      shell: |
+        yum install -y insights-client
+    - name: register insights client
+      shell: |
+        insights-client --register

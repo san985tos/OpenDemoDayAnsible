@@ -1,0 +1,8 @@
+---
+- hosts: "{{ host }}"
+  become: true
+  tasks:
+    - name: install podman
+      shell: |
+        sudo yum module enable -y container-tools:rhel8
+        sudo yum module install -y container-tools:rhel8

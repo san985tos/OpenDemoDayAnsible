@@ -1,0 +1,7 @@
+---
+- name: Register as user (joe_user) with password (somepass) and auto-subscribe to available content.
+  redhat_subscription:
+    state: present
+    username: lvazquez-r3dh4t
+    password: 
+    autosubscribe: true

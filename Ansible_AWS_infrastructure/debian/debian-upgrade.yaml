@@ -1,0 +1,19 @@
+---
+- hosts: tag_Name_Debian
+  become: true
+  become_user: root
+  tasks:
+    - name: Update
+      shell: |
+        sudo apt-get update
+
+    - name: Upgrade
+      shell: |
+        sudo apt-get upgrade
+
+    - name: Distribution upgrade
+      shell: |
+        sudo apt-get dist-upgrade
+
+    - name: Reboot
+      reboot:

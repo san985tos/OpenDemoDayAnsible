@@ -1,0 +1,48 @@
+---
+- hosts: "{{ host }}"
+  become: true
+  tasks:
+    #- name: Delete /etc/localtime
+    #  command: rm /etc/localtime
+
+    #- name: Set timezone to America/Mexico_City
+    #  timezone:
+    #    name: America/Mexico_City
+
+    - name: Install firewalld
+      yum:
+        name: firewalld
+        state: present
+
+    - name: Start service firewalld, if not started
+      service:
+        name: firewalld
+        state: started
+
+    - name: Enable firewalld on system reboot
+      service: name=firewalld enabled=yes
+
+    - name: Adding firewall rules
+      shell: |
+        sudo firewall-cmd --permanent --add-port=6443/tcp --add-port=2379-2380/tcp --add-port=10250/tcp --add-port=10259/tcp --add-port=10257/tcp
+        sudo firewall-cmd --permanent --add-port=10250/tcp --add-port=30000-32767/tcp
+        sudo firewall-cmd --reload
+
+    - name: Set etc/hosts
+      shell: |
+        sudo echo "192.168.50.30  master" >> /etc/hosts
+        sudo echo "192.168.50.31  node1" >> /etc/hosts
+        sudo echo "192.168.50.32  node2" >> /etc/hosts
+
+    - name: Remove swapfile from /etc/fstab
+      mount:
+        name: "{{ item }}"
+        fstype: swap
+        state: absent
+      with_items:
+        - swap
+        - none
+
+    - name: Disable swap
+      command: swapoff -a
+      when: ansible_swaptotal_mb > 0

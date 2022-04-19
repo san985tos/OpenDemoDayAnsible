@@ -1,0 +1,7 @@
+---
+- hosts: "{{ host }}"
+  become: true
+  tasks:
+    - name: Subscribe nodes
+      shell: |
+        subscription-manager register --auto-attach --force --username {{ username }} --password {{ password }}

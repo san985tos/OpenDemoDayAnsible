@@ -1,0 +1,75 @@
+---
+- name: Play to create EC2 resources and finally a RHEL 8 instance.
+  hosts: localhost
+  vars:
+    aws_region: us-east-2
+    aws_instance_type: t2.micro
+    aws_ami_image_id: ami-001089eb624938d9f
+    aws_key_pair_name: ocpkey
+    aws_client_name: myCompany
+
+  tasks:
+    - name: "Task to create {{ aws_client_name }} VPC"
+      amazon.aws.ec2_vpc_net:
+        name: ansible_tower_vpc
+        cidr_block: 10.10.0.0/16
+        region: "{{ aws_region }}"
+        tenancy: default
+      register: ansible_tower_vpc
+
+    - name: "Create an Internet Gateway and associate to the {{ aws_client_name }} VPC"
+      amazon.aws.ec2_vpc_igw:
+        vpc_id: "{{ ansible_tower_vpc.vpc.id }}"
+        region: "{{ aws_region }}"
+        state: present
+      register: ansible_tower_igw
+
+    - name: "Create a subnet in the {{ aws_client_name }} VPC"
+      amazon.aws.ec2_vpc_subnet:
+        state: present
+        vpc_id: "{{ ansible_tower_vpc.vpc.id }}"
+        cidr: 10.10.0.0/20
+        region: "{{ aws_region }}"
+      register: ansible_tower_subnet
+
+    - name: "Set up public {{ aws_client_name }} subnet route table"
+      amazon.aws.ec2_vpc_route_table:
+        vpc_id: "{{ ansible_tower_vpc.vpc.id }}"
+        region: "{{ aws_region }}"
+        subnets:
+          - "{{ ansible_tower_subnet.subnet.id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ ansible_tower_igw.gateway_id }}"
+
+    - name: "Task to create AWS security groups for {{ aws_client_name }}"
+      amazon.aws.ec2_group:
+        name: ansible_tower_sg
+        description: AWS security group for Ansible Tower demostration
+        vpc_id: "{{ ansible_tower_vpc.vpc.id }}"
+        region: "{{ aws_region }}"
+        rules:
+          - proto: tcp
+            ports:
+              - 22
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all connections on port 22
+
+    - name: "Task to provision a/an {{ aws_client_name }}  RHEL 8 EC2 instance"
+      amazon.aws.ec2:
+        region: "{{ aws_region }}"
+        key_name: "{{ aws_key_pair_name }}"
+        instance_type: "{{ aws_instance_type }}"
+        image: "{{ aws_ami_image_id }}"
+        wait: yes
+        group: ansible_tower_sg
+        count: 1
+        vpc_subnet_id: "{{ ansible_tower_subnet.subnet.id }}"
+        assign_public_ip: yes
+        instance_tags:
+          Name: test
+      register: ansible_tower_instance
+
+    - name: "show {{ aws_client_name }} RHEL 8 instance details - debug output"
+      debug:
+        msg: "The RHEL8 instance is accessible at {{ ansible_tower_instance.instances[0].public_ip }}"
