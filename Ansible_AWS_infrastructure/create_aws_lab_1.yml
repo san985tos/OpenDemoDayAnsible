@@ -65,7 +65,6 @@
 
     - name: Crear instancia EC2
       amazon.aws.ec2_instance:
-        name: "RHEL"
         key_name: "{{ aws_key_pair_name }}"
         vpc_subnet_id: "{{ ansible_tower_subnet.subnet.id }}"
         instance_type: "{{ aws_instance_type }}"
