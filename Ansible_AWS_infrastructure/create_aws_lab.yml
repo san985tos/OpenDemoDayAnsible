@@ -63,8 +63,7 @@
             cidr_ip: 0.0.0.0/0
             rule_desc: allow all connections on port 22
 
-    - name: "6 - Provisioning instances"
-      
+    - name: Provisioning EC2
       block:
         - name: "6.1 - Provision RHEL8.4 nodes"
           amazon.aws.ec2:
