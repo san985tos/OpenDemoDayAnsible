@@ -64,6 +64,7 @@
             rule_desc: allow all connections on port 22
 
     - name: "6 - Provisioning instances"
+      
       block:
         - name: "6.1 - Provision RHEL8.4 nodes"
           amazon.aws.ec2:
