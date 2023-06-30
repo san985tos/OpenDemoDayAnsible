@@ -6,7 +6,7 @@
     aws_instance_type: t2.micro
     aws_instance_rhel8_id: ami-0ba62214afa52bec7
     aws_key_pair_name: demo
-    number_of_debians: 1
+    number_of_rhels: 1
 
   tasks:
     - name: Crear instancia EC2
@@ -16,7 +16,7 @@
         vpc_subnet_id: vpc-08e7d6ad108058415
         instance_type: t2.micro
         region: "{{ aws_region }}"
-        count: "{{ number_of_debians }}"
+        count: "{{ number_of_rhels }}"
         network:
           assign_public_ip: true
         image_id: ami-0ba62214afa52bec7
