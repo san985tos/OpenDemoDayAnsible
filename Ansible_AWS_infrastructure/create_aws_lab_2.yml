@@ -9,7 +9,7 @@
 
   tasks:
     - name: Crear instancia EC2
-      ec2:
+      amazon.aws.ec2_instance:
         region: "{{ aws_region }}"
         instance_type: "{{ aws_instance_type }}"
         image: '{{ aws_instance_rhel8_id }}'
