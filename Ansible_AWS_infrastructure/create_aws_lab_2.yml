@@ -14,6 +14,7 @@
         key_name: demo
         vpc_subnet_id: vpc-08e7d6ad108058415
         instance_type: t2.micro
+        region: "{{ aws_region }}"
         network:
           assign_public_ip: true
         image_id: ami-0ba62214afa52bec7
