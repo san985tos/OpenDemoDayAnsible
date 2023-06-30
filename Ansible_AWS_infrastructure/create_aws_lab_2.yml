@@ -5,24 +5,20 @@
     aws_region: us-east-2
     aws_instance_type: t2.micro
     aws_instance_rhel8_id: ami-0ba62214afa52bec7
-    aws_instance_windows2019_id: ami-0c4a11a8d0e503812
-    aws_instance_debian_id: ami-089fe97bc00bff7cc
-    aws_instance_ubuntu_id: ami-0fb653ca2d3203ac1
     aws_key_pair_name: demo
-    aws_client_name: myCompany
 
   tasks:
-    - name: Provision RHEL8.4 nodes
+    - name: Crear instancia EC2
       ec2:
-        instance_type: '{{ aws_instance_type }}'
+        region: "{{ aws_region }}"
+        instance_type: "{{ aws_instance_type }}"
         image: '{{ aws_instance_rhel8_id }}'
-        region: '{{ aws_region }}'
-        count: '{{ number_of_rhels }}'
-        wait: yes
         key_name: '{{ aws_key_pair_name }}'
-        assign_public_ip: yes
-        group: ansible_tower_sg
-        vpc_subnet_id: '{{ ansible_tower_subnet.subnet.id }}'
-        instance_tags:
-          Name: RHEL8
-          Type: Linux
+        count: '{{ number_of_rhels }}'
+        group_id: ansible_tower_sg
+        wait: True
+      register: ec2_instance
+
+    - name: Mostrar información de la instancia creada
+      debug:
+        var: ec2_instance.instances
