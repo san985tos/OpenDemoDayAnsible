@@ -13,7 +13,7 @@
 
   tasks:
     - name: Provision RHEL8.4 nodes
-      amazon.aws.ec2:
+      ec2:
         instance_type: '{{ aws_instance_type }}'
         image: '{{ aws_instance_rhel8_id }}'
         region: '{{ aws_region }}'
