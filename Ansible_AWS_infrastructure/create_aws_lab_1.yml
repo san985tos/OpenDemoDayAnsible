@@ -62,3 +62,17 @@
               - 5986
             cidr_ip: 0.0.0.0/0
             rule_desc: allow all connections on port 22
+
+    - name: Crear instancia EC2
+      amazon.aws.ec2_instance:
+        name: "RHEL"
+        key_name: "{{ aws_key_pair_name }}"
+        vpc_subnet_id: "{{ ansible_tower_subnet.subnet.id }}"
+        instance_type: "{{ aws_instance_type }}"
+        region: "{{ aws_region }}"
+        network:
+          assign_public_ip: true
+        image_id: "{{ aws_instance_rhel8_id }}"
+        tags:
+          Name: RHEL8
+          Type: Linux
