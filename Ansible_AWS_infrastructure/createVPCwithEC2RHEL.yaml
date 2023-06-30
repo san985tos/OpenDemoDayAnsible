@@ -10,6 +10,7 @@
     aws_instance_ubuntu_id: ami-0fb653ca2d3203ac1
     aws_key_pair_name: demo
     aws_client_name: myCompany
+    number_of_rhels: 1
 
   tasks:
     - name: "1 - Task to create {{ aws_client_name }} VPC"
