@@ -75,8 +75,8 @@
             key_name: "{{ aws_key_pair_name }}"
             network:
               assign_public_ip: yes
-            placement:
-              group_name: ansible_tower_sg
+            #placement:
+            #  group_name: ansible_tower_sg
             vpc_subnet_id: "{{ ansible_tower_subnet.subnet.id }}"
             tags:
               Name: RHEL8
