@@ -66,7 +66,7 @@
     - name: Provisioning EC2
       block:
         - name: "6.1 - Provision RHEL8.4 nodes"
-          amazon.aws.ec2:
+          amazon.aws.ec2_instance:
             instance_type: "{{ aws_instance_type }}"
             image: "{{ aws_instance_rhel8_id }}"
             region: "{{ aws_region }}"
@@ -81,7 +81,7 @@
               Type: Linux
 
         - name: "6.2 - Provision Debian nodes"
-          amazon.aws.ec2:
+          amazon.aws.ec2_instance:
             instance_type: "{{ aws_instance_type }}"
             image: "{{ aws_instance_debian_id }}"
             region: "{{ aws_region }}"
@@ -96,7 +96,7 @@
               Type: Linux
 
         - name: "6.3 - Provision Windows nodes"
-          amazon.aws.ec2:
+          amazon.aws.ec2_instance:
             instance_type: "{{ aws_instance_type }}"
             image: "{{ aws_instance_windows2019_id }}"
             region: "{{ aws_region }}"
@@ -111,7 +111,7 @@
               Type: Windows
 
         - name: "6.4 - Provision Ubuntu nodes"
-          amazon.aws.ec2:
+          amazon.aws.ec2_instance:
             instance_type: "{{ aws_instance_type }}"
             image: "{{ aws_instance_ubuntu_id }}"
             region: "{{ aws_region }}"
