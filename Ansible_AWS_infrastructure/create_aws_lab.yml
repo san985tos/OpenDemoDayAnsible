@@ -5,7 +5,7 @@
     aws_region: us-east-2
     aws_instance_type: t2.micro
     aws_instance_rhel8_id: ami-0ba62214afa52bec7
-    aws_instance_windows2019_id: ami-0c4a11a8d0e503812
+    aws_instance_windows2019_id: ami-094aa6728b151e05a
     aws_instance_debian_id: ami-089fe97bc00bff7cc
     aws_instance_ubuntu_id: ami-0fb653ca2d3203ac1
     aws_key_pair_name: demo
