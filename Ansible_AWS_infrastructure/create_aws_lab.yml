@@ -73,10 +73,12 @@
             count: "{{ number_of_rhels }}"
             wait: yes
             key_name: "{{ aws_key_pair_name }}"
-            assign_public_ip: yes
-            group: ansible_tower_sg
+            network:
+              assign_public_ip: yes
+            placement:
+              group_name: ansible_tower_sg
             vpc_subnet_id: "{{ ansible_tower_subnet.subnet.id }}"
-            instance_tags:
+            tags:
               Name: RHEL8
               Type: Linux
 
@@ -88,10 +90,12 @@
             count: "{{ number_of_debians }}"
             wait: yes
             key_name: "{{ aws_key_pair_name }}"
-            assign_public_ip: yes
-            group: ansible_tower_sg
+            network:
+              assign_public_ip: yes
+            placement:
+              group_name: ansible_tower_sg
             vpc_subnet_id: "{{ ansible_tower_subnet.subnet.id }}"
-            instance_tags:
+            tags:
               Name: Debian
               Type: Linux
 
@@ -103,10 +107,12 @@
             count: "{{ number_of_windows }}"
             wait: yes
             key_name: "{{ aws_key_pair_name }}"
-            assign_public_ip: yes
-            group: ansible_tower_sg
+            network:
+              assign_public_ip: yes
+            placement:
+              group_name: ansible_tower_sg
             vpc_subnet_id: "{{ ansible_tower_subnet.subnet.id }}"
-            instance_tags:
+            tags:
               Name: Windows2019
               Type: Windows
 
@@ -118,10 +124,12 @@
             count: "{{ number_of_ubuntus }}"
             wait: yes
             key_name: "{{ aws_key_pair_name }}"
-            assign_public_ip: yes
-            group: ansible_tower_sg
+            network:
+              assign_public_ip: yes
+            placement: 
+              group_name: ansible_tower_sg
             vpc_subnet_id: "{{ ansible_tower_subnet.subnet.id }}"
-            instance_tags:
+            tags:
               Name: Ubuntu
               Type: Linux
 
